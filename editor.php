@@ -88,7 +88,6 @@ class EditorPlugin extends Plugin
 
                 if (!isset($_GET['target'])) {
                     $directoryToView = "";
-                    break;
                 } else {
                     $directoryToView = $_GET['target'];
                 }
