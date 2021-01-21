@@ -31,6 +31,7 @@ use Grav\Common\Page\Page;
 use Grav\Common\Plugin;
 use Twelvetone\Common\ServiceManager;
 
+
 /**
  * Class CSSEditorPlugin
  * @package Grav\Plugin
@@ -83,7 +84,26 @@ class EditorPlugin extends Plugin
                 $e->page = $page;
                 $e->stopPropagation();
                 break;
+            case "editor/directories":
 
+                if (!isset($_GET['target'])) {
+                    $this->grav->redirect("/editor");
+                    return "";
+                }
+                $directoryToView = $_GET['target'];
+                if (!is_dir($directoryToView)) {
+                    return "<div>The directory you have selected to edit was not found.</div>";
+                }
+                $this->grav['twig']->twig_vars['directoryToView'] = $route;
+                $page = new Page;
+                $path = __DIR__ . "admin/editor-pages/editor-directories.md";
+                $page->init(new \SplFileInfo($path));
+                $page->template('editor-directories');
+                $page->slug(basename($route));
+                
+                $e->page = $page;
+                $e->stopPropagation();
+                break;
             case "editor/edit":
 
                 //$uri = $this->$_POST['uri'];

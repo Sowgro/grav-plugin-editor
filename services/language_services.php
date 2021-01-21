@@ -128,6 +128,18 @@
             ]
         ]);
     }
+
+    if ($config->get("plugins.editor.directories_enabled", true)) {
+        $manager->registerService("language", [
+            "id" => "directories",
+            "caption" => "Directories",
+            "icon" => "fa-folders",
+            'iconstyle' =>  'fa',
+            "dependencies" => [
+                "dependencies" => ['plugin://editor/lib/codemirror/mode/yacas/yacas.js'],
+            ]
+        ]);
+    }
 }
 
 // Do this at the last possible moment to allow all languages to register.

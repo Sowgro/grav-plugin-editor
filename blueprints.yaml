@@ -101,3 +101,14 @@ form:
         0: Disabled
       validate:
         type: bool
+
+    directories_enabled:
+      type: toggle
+      label: Directories
+      highlight: 1
+      default: 1
+      options:
+        1: Enabled
+        0: Disabled
+      validate:
+        type: bool

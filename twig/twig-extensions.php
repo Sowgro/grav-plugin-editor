@@ -67,6 +67,7 @@ class CssEditorTwigExtensions extends \Twig_Extension
             new \Twig_SimpleFunction('css_editor_edit', [$this, 'css_editor_edit']),
 
             new \Twig_SimpleFunction('css_editor_directories', [$this, 'css_editor_directories']),
+            new \Twig_SimpleFunction('get_directory_list', [$this, 'get_directory_list']),
             new \Twig_SimpleFunction('twig_editor_directories', [$this, 'twig_editor_directories']),
             new \Twig_SimpleFunction('php_editor_directories', [$this, 'php_editor_directories']),
             new \Twig_SimpleFunction('js_editor_directories', [$this, 'js_editor_directories']),
@@ -252,25 +253,6 @@ class CssEditorTwigExtensions extends \Twig_Extension
     {
         //TODO add scss too
         return $this->get_editor_directories('css');
-
-//        $theDirectories = $this->getCssDirectories();
-//
-//        $s = "";
-//        $s .= addFastFilter(".editor-items a", ".editor-items .editor-section", "a");
-//        $s .= "<div class='editor-items'>";
-//        foreach ($theDirectories as $dir) {
-//            $shortDir = preg_replace("#^.*?/(user|system)/#", "$1/", $dir);
-//            $s .= "<div class='editor-section'><div class='editor-folder'>$shortDir</div>";
-//            foreach ($this->getFiles($dir) as $file) {
-//                $path = "$dir/$file";
-//                if (!is_file($path)) continue;
-//                $editorUrl = $this->getEditorUrl($path, "css");
-//                $s .= "<a href='$editorUrl'}><div class='editor-file'>$file</div></a>";
-//            }
-//            $s .= "</div>";
-//        }
-//        $s .= "</div>";
-//        return $s;
     }
 
     static public function walkDir($parent, $callback)
@@ -305,6 +287,11 @@ class CssEditorTwigExtensions extends \Twig_Extension
     public function yaml_editor_directories()
     {
         return $this->get_extension_editor_directories('yaml');
+    }
+    
+    public function get_directory_list($directory)
+    {
+        return $this->get_extension_editor_directories('md');
     }
 
     private function get_extension_editor_directories($theExtension)
