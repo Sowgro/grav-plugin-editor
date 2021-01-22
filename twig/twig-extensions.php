@@ -276,7 +276,7 @@ class CssEditorTwigExtensions extends \Twig_Extension
         foreach($directoryList as $child){
             $path = "$directory/$child";
             $url = "";
-            if (is_dir($path)){
+            if (is_dir($path) && !preg_match("/(\/\.\.|\/\.)/",$path)){
                 $url = $this->encodeDirectoryUrl($path);
                 $child .= "/";
             } elseif (is_file($path)) {

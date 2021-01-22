@@ -49,9 +49,8 @@ class EditorPlugin extends Plugin
     {
         $manager = ServiceManager::getInstance();
 
-        require_once "services/language_services.php";
+        require_once "services/services.php";
         include "services/file_actions.php";
-        include "services/file_actions_test.php";
         include "services/list_actions.php";
 
         $event['paths'] = array_merge($event['paths'], [__DIR__ . '/admin/templates']);
@@ -67,7 +66,7 @@ class EditorPlugin extends Plugin
         $route = $this->grav['admin']->location . "/" . $this->grav['admin']->route;
 
         switch ($route) {
-            case "editor/directory":
+            case "editor":
 
                 if (isset($_GET['target'])) {
                     $directoryToView = $_GET['target'];
@@ -106,10 +105,10 @@ class EditorPlugin extends Plugin
                 }
                 $pageToEdit = $_GET['target'];
 
-//                if (!$pageToEdit) {
-//                    $this->grav->redirect("/editor");
-//                    return "";
-//                }
+            //    if (!$pageToEdit) {
+            //        $this->grav->redirect("/editor");
+            //        return "";
+            //    }
 
                 if (!is_file($pageToEdit)) {
                     return "<div>The file you have selected to edit was not found.</div>";
@@ -135,7 +134,7 @@ class EditorPlugin extends Plugin
                 $page = new Page;
                 $path = __DIR__ . '/admin/editor-pages/editor-action.md';
                 $page->init(new \SplFileInfo($path));
-//                $page->template('empty');
+            //    $page->template('empty');
                 $page->slug(basename($route));
 
                 $e->page = $page;

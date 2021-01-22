@@ -54,47 +54,4 @@ $manager->registerService("renderer", [
     },
 ]);
 
-$manager->registerService("renderer", [
-    "caption" => "Rename",
-    "scope" => ["editor"],
-    "order" => "after:parent",
-    "render" => function () {
-        return "<a class='button' onclick='_doRename(); return false;'><i class='fa fa-wrench'></i>Rename</a>";
-    },
-]);
 
-$manager->registerService("renderer", [
-    "caption" => "Move",
-    "scope" => ["editor"],
-    "order" => "after:parent",
-    "render" => function () {
-        return "<a class='button' onclick='_doMove(); return false;'><i class='fa fa-plane'></i>Move</a>";
-    },
-]);
-
-$manager->registerService("renderer", [
-    "caption" => "Copy",
-    "scope" => ["editor"],
-    "order" => "after:parent",
-    "render" => function () {
-        return "<a class='button' onclick='_doCopy(); return false;'><i class='fa fa-copy'></i>Copy</a>";
-    },
-]);
-
-$manager->registerService("renderer", [
-    "caption" => "Create",
-    "scope" => ["editor"],
-    "order" => "after:parent",
-    "render" => function () {
-        return "<a class='button' onclick='_doCreate(); return false;'><i class='fa fa-plus'></i>Create</a>";
-    },
-]);
-
-$manager->registerService("renderer", [
-    "caption" => "Delete",
-    "scope" => ["editor"],
-    "order" => "last",
-    "render" => function () {
-        return "<a class='button' onclick='_doConfirm(_doDelete); return false;'><i class='fa fa-trash'></i>Delete</a>";
-    },
-]);
