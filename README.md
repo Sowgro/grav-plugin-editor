@@ -5,7 +5,7 @@ Edit your Grav source files directly from the browser. CSS, Twig, JS, and PHP ar
 This is a fork of [Flamenco's](https://github.com/Flamenco/grav-plugin-editor/) **Editor** plugin.
 Main differences is how the files are accessed through the admin panel and using the admin plugins styles. This version goes for a directory view approach, similar to standard file explorers.
 This allows for a better user experience when compared to a recursive list of all files of a single type.
-It also uses the css and codemirror settings from the admin panel configuration to avid style conflicts.
+It also uses the css and codemirror settings from the admin panel configuration to avoid style conflicts.
 
 ## Installation
 
