@@ -291,7 +291,36 @@ class CssEditorTwigExtensions extends \Twig_Extension
     
     public function get_directory_list($directory)
     {
-        return $this->get_extension_editor_directories('md');
+        // Starts the HTML elements
+        $s = "";
+        $s .= addFastFilter(".editor-items a", ".editor-items .editor-section", "a");
+        $s .= "<div class='editor-items'><div class='editor-section'>";
+
+        // We can assume $directory is indeed a valid directory since this check is done in the route
+        // If $directory is not specified, we should list the user and system directories, else scan directory and add all it's children
+        if ($directory=="") {
+            $systemUrl = encodeDirectoryUrl('system');
+            $s .= "<a href='$systemUrl'}><div class='editor-file'>system</div></a>";
+            $userUrl = encodeDirectoryUrl('user');
+            $s .= "<a href='$userUrl'}><div class='editor-file'>user</div></a>";
+        } else {
+            $directoryList = scandir($directory)
+            foreach($directoryList as $child){
+                $path = "$directory/$child"
+                $url = "";
+                if (is_dir($path)){
+                    $url = $this->encodeDirectoryUrl($path);
+                } elseif (is_file($path)) {
+                    $url = $this->encodeFileUrl($path,pathinfo($path, PATHINFO_EXTENSION));
+                }
+                $s .= "<a href='$url'}><div class='editor-file'>$child</div></a>";
+            }
+
+        }
+
+        // Ends HTML elements and returns it
+        $s .= '</div></div>';
+        return $s;
     }
 
     private function get_extension_editor_directories($theExtension)
@@ -378,6 +407,18 @@ class CssEditorTwigExtensions extends \Twig_Extension
     {
         $xpath = urlencode($path);
         return "edit?language=$language&target=$xpath";
+    }
+
+    private function encodeFileUrl($path, $extension)
+    {
+        $xpath = urlencode($path);
+        return "edit?language=$language&target=$xpath";
+    }
+
+    private function encodeDirectoryUrl($path)
+    {
+        $xpath = urlencode($path);
+        return "directory?target=$xpath";
     }
 
     public function css_editor_list()

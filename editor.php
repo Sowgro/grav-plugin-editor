@@ -84,7 +84,7 @@ class EditorPlugin extends Plugin
                 $e->page = $page;
                 $e->stopPropagation();
                 break;
-            case "editor/directories":
+            case "editor/directory":
 
                 if (!isset($_GET['target'])) {
                     $directoryToView = "";

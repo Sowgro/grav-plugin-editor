@@ -131,7 +131,7 @@
 
     if ($config->get("plugins.editor.directories_enabled", true)) {
         $manager->registerService("language", [
-            "id" => "directories",
+            "id" => "directory",
             "caption" => "Directories",
             "icon" => "fa-folders",
             'iconstyle' =>  'fa',
