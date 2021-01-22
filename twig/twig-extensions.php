@@ -291,42 +291,47 @@ class CssEditorTwigExtensions extends \Twig_Extension
     
     public function get_directory_list($directory)
     {
-        //Check if directory is valid
-        if (!is_dir($directory)) {
-            $this->grav->fireEvent('onPageNotFound');      
-            return "<div>The directory you have selected to edit was not found.</div>";
-        }
-        // Disallow use of .. to prevent access to restricted directories
-        if (!preg_match("/(\/\.\.\/|\/\.\/)/",$directory)) {
-            $this->grav->fireEvent('onPageNotFound');
-            return "<div>The use of special links . and .. are not allowed.</div>";
-        }
+        
 
         // Starts the HTML elements
         $s = "";
         $s .= addFastFilter(".editor-items a", ".editor-items .editor-section", "a");
         $s .= "<div class='editor-items'><div class='editor-section'>";
 
-        // We can assume $directory is indeed a valid directory since this check is done in the route
-        // If $directory is not specified, we should list the user and system directories, else scan directory and add all it's children
+        // If directory empty then show user and system
         if ($directory=="") {
             $systemUrl = encodeDirectoryUrl('system');
-            $s .= "<a href='$systemUrl'}><div class='editor-file'>system</div></a>";
+            $s .= "<a href='$systemUrl'}><div class='editor-file'>system/</div></a>";
             $userUrl = encodeDirectoryUrl('user');
-            $s .= "<a href='$userUrl'}><div class='editor-file'>user</div></a>";
-        } else {
-            $directoryList = scandir($directory);
-            foreach($directoryList as $child){
-                $path = "$directory/$child";
-                $url = "";
-                if (is_dir($path)){
-                    $url = $this->encodeDirectoryUrl($path);
-                } elseif (is_file($path)) {
-                    $url = $this->encodeFileUrl($path,pathinfo($path, PATHINFO_EXTENSION));
-                }
-                $s .= "<a href='$url'}><div class='editor-file'>$child</div></a>";
-            }
+            $s .= "<a href='$userUrl'}><div class='editor-file'>user/</div></a>";
+            $s .= '</div></div>';
+            return $s;
+        }
 
+        // Check if directory is valid
+        if (!is_dir($directory)) {
+            $this->grav->fireEvent('onPageNotFound');      
+            return "<div>$directory is not a directory.</div>";
+        }
+
+        // Disallow use of .. to prevent access to restricted directories
+        if (preg_match("/(\/\.\.\/|\/\.\/)/",$directory)) {
+            $this->grav->fireEvent('onPageNotFound');
+            return "<div>The use of special links . and .. are not allowed.</div>";
+        }
+
+        // We can assume $directory is indeed a valid directory since this check is done in the route
+        $directoryList = scandir($directory);
+        foreach($directoryList as $child){
+            $path = "$directory/$child";
+            $url = "";
+            if (is_dir($path)){
+                $url = $this->encodeDirectoryUrl($path);
+                $child .= "/"
+            } elseif (is_file($path)) {
+                $url = $this->encodeFileUrl($path,pathinfo($path, PATHINFO_EXTENSION));
+            }
+            $s .= "<a href='$url'}><div class='editor-file'>$child</div></a>";
         }
 
         // Ends HTML elements and returns it
