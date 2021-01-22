@@ -86,18 +86,14 @@ class EditorPlugin extends Plugin
                 break;
             case "editor/directory":
                 // Check if directory is given
-                if (!isset($_GET['target'])) {
-                    $directoryToView = "";
-                } else {
+                if (isset($_GET['target'])) {
                     $directoryToView = $_GET['target'];
                     //Check if directory is valid
                     if (!is_dir($directoryToView)) {
-                        $directoryToView = "";
                         return "<div>The directory you have selected to edit was not found.</div>";
                     }
                     // Disallow use of .. to prevent access to restricted directories
                     if (!preg_match("/(\/\.\.\/|\/\.\/)/",$directoryToView)) {
-                        $directoryToView = "";
                         return "<div>The use of special link . and .. are not allowed.</div>";
                     }
                 }

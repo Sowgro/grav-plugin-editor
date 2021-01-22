@@ -291,6 +291,15 @@ class CssEditorTwigExtensions extends \Twig_Extension
     
     public function get_directory_list($directory)
     {
+        //Check if directory is valid
+        if (!is_dir($directory)) {
+            $this->grav->fireEvent('onPageNotFound');
+        }
+        // Disallow use of .. to prevent access to restricted directories
+        if (!preg_match("/(\/\.\.\/|\/\.\/)/",$directory)) {
+            $this->grav->fireEvent('onPageNotFound');
+        }
+
         // Starts the HTML elements
         $s = "";
         $s .= addFastFilter(".editor-items a", ".editor-items .editor-section", "a");
