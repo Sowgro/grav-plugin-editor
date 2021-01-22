@@ -17,6 +17,7 @@
     </style>
 {% endblock %}
 
+{% set directoryToView = uri.query('target') %}
 
 {% block javascripts %}
     {{ parent() }}
