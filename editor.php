@@ -85,18 +85,23 @@ class EditorPlugin extends Plugin
                 $e->stopPropagation();
                 break;
             case "editor/directory":
-                // Check if directory is given
+
                 if (isset($_GET['target'])) {
                     $directoryToView = $_GET['target'];
-                    //Check if directory is valid
-                    if (!is_dir($directoryToView)) {
-                        return "<div>The directory you have selected to edit was not found.</div>";
-                    }
-                    // Disallow use of .. to prevent access to restricted directories
-                    if (!preg_match("/(\/\.\.\/|\/\.\/)/",$directoryToView)) {
-                        return "<div>The use of special link . and .. are not allowed.</div>";
-                    }
+                } else {
+                    $directoryToView = "";
                 }
+                
+                // Check if directory given is valid or empty
+                if ($directoryToView!="" && !is_dir($directoryToView)) {
+                    return "<div>$directoryToView is not a directory.</div>";
+                }
+        
+                // Disallow use of .. to prevent access to restricted directories
+                if (preg_match("/(\/\.\.|\/\.)/",$directoryToView)) {
+                    return "<div>The use of special links . and .. are not allowed.</div>";
+                }
+                
                 $this->grav['twig']->twig_vars['directoryToView'] = $route;
                 $page = new Page;
                 $path = __DIR__ . "/admin/editor-pages/editor-directories.md";

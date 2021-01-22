@@ -312,7 +312,7 @@ class CssEditorTwigExtensions extends \Twig_Extension
         }
 
         // Disallow use of .. to prevent access to restricted directories
-        if (preg_match("/(\/\.\.\/|\/\.\/)/",$directory)) {
+        if (preg_match("/(\/\.\.|\/\.)/",$directory)) {
             return "<div>The use of special links . and .. are not allowed.</div>";
         }
 
