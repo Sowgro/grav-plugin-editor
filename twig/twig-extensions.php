@@ -291,8 +291,6 @@ class CssEditorTwigExtensions extends \Twig_Extension
     
     public function get_directory_list($directory)
     {
-        
-
         // Starts the HTML elements
         $s = "";
         $s .= addFastFilter(".editor-items a", ".editor-items .editor-section", "a");
@@ -310,13 +308,11 @@ class CssEditorTwigExtensions extends \Twig_Extension
 
         // Check if directory is valid
         if (!is_dir($directory)) {
-            $this->grav->fireEvent('onPageNotFound');      
             return "<div>$directory is not a directory.</div>";
         }
 
         // Disallow use of .. to prevent access to restricted directories
         if (preg_match("/(\/\.\.\/|\/\.\/)/",$directory)) {
-            $this->grav->fireEvent('onPageNotFound');
             return "<div>The use of special links . and .. are not allowed.</div>";
         }
 
@@ -327,7 +323,7 @@ class CssEditorTwigExtensions extends \Twig_Extension
             $url = "";
             if (is_dir($path)){
                 $url = $this->encodeDirectoryUrl($path);
-                $child .= "/"
+                $child .= "/";
             } elseif (is_file($path)) {
                 $url = $this->encodeFileUrl($path,pathinfo($path, PATHINFO_EXTENSION));
             }
