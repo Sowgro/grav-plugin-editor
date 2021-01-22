@@ -42,7 +42,7 @@
 // Do this at the last possible moment to allow all languages to register.
 {
     $manager = \Twelvetone\Common\ServiceManager::getInstance();
-
+    $grav = \Grav\Common\Grav::instance();
     $base = $grav['uri']->rootUrl(false) . '/' . trim($grav['admin']->base, '/');
 
     $manager->registerService('action', [
@@ -55,7 +55,7 @@
             return strpos(\Grav\Common\Grav::instance()['uri']->route(), "/editor") != false;
         }
     ]);
-    
+
 }
 
 // Ye old list
