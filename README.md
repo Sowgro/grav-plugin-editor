@@ -2,6 +2,10 @@
 
 The **Editor** Plugin is for [Grav CMS](http://github.com/getgrav/grav). 
 Edit your Grav source files directly from the browser. CSS, Twig, JS, and PHP are supported.
+This is a fork of [Flamenco's](https://github.com/Flamenco/grav-plugin-editor/) **Editor** plugin.
+Main differences is how the files are accessed through the admin panel and using the admin plugins styles. This version goes for a directory view approach, similar to standard file explorers.
+This allows for a better user experience when compared to a recursive list of all files of a single type.
+It also uses the css and codemirror settings from the admin panel configuration to avid style conflicts.
 
 ## Installation
 
@@ -44,7 +48,6 @@ To edit CSS files, you must be logged in as administrator or superuser.
 * An editor page will open allowing you to make changes.
 * Press _Save_ to update the file.
 
-See [Official Documentation](https://www.twelvetone.tv/docs/developer-tools/grav-plugins/grav-editor-plugin).
 
 ## Credits
 
