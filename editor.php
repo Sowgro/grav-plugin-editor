@@ -66,7 +66,7 @@ class EditorPlugin extends Plugin
         $route = $this->grav['admin']->location . "/" . $this->grav['admin']->route;
 
         switch ($route) {
-            case "editor":
+            case "files/":
 
                 if (isset($_GET['target'])) {
                     $directoryToView = $_GET['target'];
@@ -94,13 +94,13 @@ class EditorPlugin extends Plugin
                 $e->page = $page;
                 $e->stopPropagation();
                 break;
-            case "editor/edit":
+            case "files/edit":
 
                 //$uri = $this->$_POST['uri'];
                 //BUG 'page' does not work as query parameter name
 
                 if (!isset($_GET['target'])) {
-                    $this->grav->redirect("/editor");
+                    $this->grav->redirect("admin/files");
                     return "";
                 }
                 $pageToEdit = $_GET['target'];
@@ -115,7 +115,7 @@ class EditorPlugin extends Plugin
                 }
 
                 if (!isset($_GET['language'])) {
-                    $this->grav->redirect("/editor");
+                    $this->grav->redirect("admin/files");
                     return "";
                 }
 
@@ -130,7 +130,7 @@ class EditorPlugin extends Plugin
                 $e->stopPropagation();
                 break;
 
-            case "editor/action":
+            case "files/action":
                 $page = new Page;
                 $path = __DIR__ . '/admin/editor-pages/editor-action.md';
                 $page->init(new \SplFileInfo($path));

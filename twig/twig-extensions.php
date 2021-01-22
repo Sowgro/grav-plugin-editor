@@ -331,7 +331,7 @@ class CssEditorTwigExtensions extends \Twig_Extension
     private function encodeDirectoryUrl($path)
     {
         $xpath = urlencode($path);
-        return "directory?target=$xpath";
+        return "?target=$xpath";
     }
 
     public function css_editor_list()

@@ -47,12 +47,12 @@
 
     $manager->registerService('action', [
         "caption" => "Files",
-        "icon" => "fa-folders",
+        "icon" => "fa-folder",
         "scope" => ["admin:sidebar"],
         "order" => "after:parent",
-        "href" => $base . "/editor",
+        "href" => $base . "/files",
         'isSelected' => function ($context) {
-            return strpos(\Grav\Common\Grav::instance()['uri']->route(), "/editor") != false;
+            return strpos(\Grav\Common\Grav::instance()['uri']->route(), "/files") != false;
         }
     ]);
 
