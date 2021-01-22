@@ -298,9 +298,9 @@ class CssEditorTwigExtensions extends \Twig_Extension
 
         // If directory empty then show user and system
         if ($directory=="") {
-            $systemUrl = encodeDirectoryUrl('system');
+            $systemUrl = $this->encodeDirectoryUrl('system');
             $s .= "<a href='$systemUrl'}><div class='editor-file'>system/</div></a>";
-            $userUrl = encodeDirectoryUrl('user');
+            $userUrl = $this->encodeDirectoryUrl('user');
             $s .= "<a href='$userUrl'}><div class='editor-file'>user/</div></a>";
             $s .= '</div></div>';
             return $s;
