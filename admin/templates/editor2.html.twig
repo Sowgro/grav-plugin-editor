@@ -29,26 +29,26 @@
 {% set pageToEdit = uri.query('target') %}
 {% set language = uri.query('language') %}
 
+{% switch language %}
+    {% case 'twig' %}
+        {% set mode = 'htmltwig'%}
+    {% case 'js' %}
+        {% set mode = 'javascript'%}
+    {% case 'md' %}
+        {% set mode = 'gfm'%}
+    {% case 'yaml' %}
+        {% set mode = 'yacas'%}
+    {% default %}
+        {% set mode = 'gfm'%}
+{% endswitch %}
+
 {% if not codemirrorOptions %}
-    {% set codemirrorOptions = {'mode': 'gfm', 'lineNumbers': true, 'theme': theme, 'font': 'mono'}%}
+    {% set codemirrorOptions = {'mode': mode, 'lineNumbers': true, 'theme': theme, 'font': 'mono'}%}
 {% endif %}
 
 {% if codemirrorOptions.theme %}
     {% do assets.addCss(theme_url ~ '/css/codemirror/themes/' ~ codemirrorOptions.theme ~ '.css') %}
 {% endif %}
-
-{% switch language %}
-    {% case 'twig' %}
-        {% set codemirrorOptions.mode = 'htmltwig'%}
-    {% case 'js' %}
-        {% set codemirrorOptions.mode = 'javascript'%}
-    {% case 'md' %}
-        {% set codemirrorOptions.mode = 'gfm'%}
-    {% case 'yaml' %}
-        {% set codemirrorOptions.mode = 'yacas'%}
-    {% default %}
-        {% set codemirrorOptions.mode = 'gfm'%}
-{% endswitch %}
 
 
 {% do assets.addJs('plugin://editor/assets/editor.js', -1000) %}
