@@ -276,13 +276,15 @@ class CssEditorTwigExtensions extends \Twig_Extension
         foreach($directoryList as $child){
             $path = "$directory/$child";
             $url = "";
-            if (is_dir($path) && !preg_match("/(\/\.\.|\/\.)/",$path)){
+            // Skip over current and parent directories
+            if (preg_match("/(\/\.\.|\/\.)/",$path)){continue;}
+            if (is_dir($path)){
                 $url = $this->encodeDirectoryUrl($path);
                 $child .= "/";
             } elseif (is_file($path)) {
                 $url = $this->encodeFileUrl($path,pathinfo($path, PATHINFO_EXTENSION));
             }
-            $s .= "<a href='$url'}><div class='editor-file'>$child</div></a>";
+            $s .= "<a href='$url'><div class='editor-file'>$child</div></a>";
         }
 
         // Ends HTML elements and returns it
@@ -325,13 +327,13 @@ class CssEditorTwigExtensions extends \Twig_Extension
     private function encodeFileUrl($path, $extension)
     {
         $xpath = urlencode($path);
-        return "edit?language=$extension&target=$xpath";
+        return "files/edit?language=$extension&target=$xpath";
     }
 
     private function encodeDirectoryUrl($path)
     {
         $xpath = urlencode($path);
-        return "?target=$xpath";
+        return "files?target=$xpath";
     }
 
     public function css_editor_list()

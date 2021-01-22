@@ -4,6 +4,11 @@
 {% set service = service ? service : 'renderer' %}
 {% set context = context ? context : "no_context" %}
 
+{#Admin plugin config#}
+{% set whitelabel = config.plugins.admin.whitelabel %}
+{% set theme = whitelabel.codemirror_theme ?? 'paper.css' %}
+{% set fontsize = whitelabel.codemirror_fontsize ?? 'lg' %}
+
 {% do assets.addJs('plugin://admin-power-tools/assets/ajax_util.js') %}
 {% do assets.addJs('plugin://admin-power-tools/assets/fullscreen_util.js') %}
 
@@ -13,12 +18,38 @@
 {% do assets.addCss('plugin://editor/lib/codemirror/codemirror.css') %}
 {% do assets.addJs('plugin://editor/lib/codemirror/codemirror.js') %}
 
-{#CodeMirror modes#}
-{% for service in service_list('language') %}
-    {% for dep in service.dependencies %}
-        {% do assets.add(dep) %}
-    {% endfor %}
-{% endfor %}
+{#CodeMirror options#}
+{% do assets.addJs('plugin://editor/lib/codemirror/mode/javascript.js') %}
+{% do assets.addJs('plugin://editor/lib/codemirror/mode/php.js') %}
+{% do assets.addJs('plugin://editor/lib/codemirror/mode/gfm.js') %}
+{% do assets.addJs('plugin://editor/lib/codemirror/mode/css.js') %}
+{% do assets.addJs('plugin://editor/lib/codemirror/mode/html.js') %}
+{% do assets.addJs('plugin://editor/lib/codemirror/mode/yacas.js') %}
+
+{% set pageToEdit = uri.query('target') %}
+{% set language = uri.query('language') %}
+
+{% if not codemirrorOptions %}
+    {% set codemirrorOptions = {'mode': 'gfm', 'lineNumbers': true, 'theme': theme, 'font': 'mono'}%}
+{% endif %}
+
+{% if codemirrorOptions.theme %}
+    {% do assets.addCss(theme_url ~ '/css/codemirror/themes/' ~ codemirrorOptions.theme ~ '.css') %}
+{% endif %}
+
+{% switch language %}
+    {% case 'twig' %}
+        {% set codemirrorOptions.mode = 'htmltwig'%}
+    {% case 'js' %}
+        {% set codemirrorOptions.mode = 'javascript'%}
+    {% case 'md' %}
+        {% set codemirrorOptions.mode = 'gfm'%}
+    {% case 'yaml' %}
+        {% set codemirrorOptions.mode = 'yacas'%}
+    {% default %}
+        {% set codemirrorOptions.mode = 'gfm'%}
+{% endswitch %}
+
 
 {% do assets.addJs('plugin://editor/assets/editor.js', -1000) %}
 
@@ -74,40 +105,18 @@
     </style>
 {% endblock %}
 
-{% set pageToEdit = uri.query('target') %}
-{% set language = uri.query('language') %}
-
 {% block footer %}
     {{ parent() }}
 
     {# make sure text area has rendered first #}
     <script>
-        let language = '{{ language }}';
-        switch (language) {
-            case 'twig':
-                language = "htmltwig";
-                break;
-            case 'js':
-                language = "javascript";
-                break;
-            case 'md':
-                language = "gfm";
-                break;
-            case 'yaml':
-                language = "yacas";
-                break;
-        }
-
         // codemirror
         CodeMirror.defineMode("htmltwig", function (config, parserConfig) {
             return CodeMirror.overlayMode(CodeMirror.getMode(config, parserConfig.backdrop || "text/html"), CodeMirror.getMode(config, "twig"));
         });
 
         const ele = document.getElementById('css-ta');
-        const editor = CodeMirror.fromTextArea(ele, {
-            lineNumbers: false,
-            mode: language
-        });
+        const editor = CodeMirror.fromTextArea(ele, {{codemirrorOptions|json_encode|raw }});
         ele._editor = editor;
     </script>
 
@@ -232,6 +241,7 @@
 
 {% block content %}
     {{ parent() }}
+    {% include 'templates/forms/fields/editor/editor.html.twig'%}
     <div class='editor'>
         <div class='editor-edit-header'>Editing <strong>{{ pageToEdit }}</strong></div>
         {% include 'fullscreen-menu.html.twig' with {'targetSelector':'.editor', 'scope':'editor'} %}
