@@ -304,9 +304,9 @@ class CssEditorTwigExtensions extends \Twig_Extension
             $userUrl = encodeDirectoryUrl('user');
             $s .= "<a href='$userUrl'}><div class='editor-file'>user</div></a>";
         } else {
-            $directoryList = scandir($directory)
+            $directoryList = scandir($directory);
             foreach($directoryList as $child){
-                $path = "$directory/$child"
+                $path = "$directory/$child";
                 $url = "";
                 if (is_dir($path)){
                     $url = $this->encodeDirectoryUrl($path);
