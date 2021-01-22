@@ -412,7 +412,7 @@ class CssEditorTwigExtensions extends \Twig_Extension
     private function encodeFileUrl($path, $extension)
     {
         $xpath = urlencode($path);
-        return "edit?language=$language&target=$xpath";
+        return "edit?language=$extension&target=$xpath";
     }
 
     private function encodeDirectoryUrl($path)
