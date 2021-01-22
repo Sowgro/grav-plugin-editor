@@ -241,7 +241,6 @@
 
 {% block content %}
     {{ parent() }}
-    {% include 'templates/forms/fields/editor/editor.html.twig'%}
     <div class='editor'>
         <div class='editor-edit-header'>Editing <strong>{{ pageToEdit }}</strong></div>
         {% include 'fullscreen-menu.html.twig' with {'targetSelector':'.editor', 'scope':'editor'} %}
