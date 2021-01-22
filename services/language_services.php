@@ -40,100 +40,11 @@
 
     //TODO make sure we have the correction mode dependencies when all are not enabled.
 
-    if ($config->get("plugins.editor.php_enabled", true)) {
-        $manager->registerService("language", [
-            "id" => "php",
-            "caption" => "PHP",
-            "icon" => "fa-php",
-            "iconstyle" => "fa",
-//            "iconstyle" => "fab",
-            "dependencies" => ['plugin://editor/lib/codemirror/mode/clike/clike.js',
-                'plugin://editor/lib/codemirror/mode/php/php.js'],
-        ]);
-    }
-
-    if ($config->get("plugins.editor.js_enabled", true)) {
-        $manager->registerService("language", [
-            "id" => "js",
-            "caption" => "Javascript",
-            "icon" => "fa-file-code-o",
-            "iconstyle" => "fa",
-//            "icon" => "fa-js",
-//            "iconstyle" => "fab",
-            "dependencies" => ['plugin://editor/lib/codemirror/mode/javascript/javascript.js'],
-        ]);
-    }
-
-    if ($config->get("plugins.editor.css_enabled", true)) {
-        $manager->registerService("language", [
-            "id" => "css",
-            "caption" => "CSS",
-            "icon" => "fa-css3",
-            "iconstyle" => "fa",
-//            "iconstyle" => "fab",
-            "dependencies" => ['plugin://editor/lib/codemirror/mode/css/css.js'],
-        ]);
-    }
-
-    if ($config->get("plugins.editor.twig_enabled", true)) {
-        $manager->registerService("language", [
-            "id" => "twig",
-            "caption" => "Twig",
-            "icon" => "fa-tree",
-            "iconstyle" => "fa",
-//            "icon" => "fa-symfony",
-//            "iconstyle" => "fab",
-            "dependencies" => [
-                'plugin://editor/lib/codemirror/addons/overlay.js',
-                'plugin://editor/lib/codemirror/mode/css/css.js',
-                'plugin://editor/lib/codemirror/mode/clike/clike.js',
-                'plugin://editor/lib/codemirror/mode/twig/twig.js',
-                'plugin://editor/lib/codemirror/mode/htmlmixed/htmlmixed.js',
-                'plugin://editor/lib/codemirror/mode/xml/xml.js',
-                'plugin://editor/lib/codemirror/mode/javascript/javascript.js',
-            ],
-        ]);
-    }
-
-    if ($config->get("plugins.editor.markdown_enabled", true)) {
-        $manager->registerService("language", [
-            "id" => "md",
-            "caption" => "Markdown",
-            "icon" => "fa-hashtag",
-            "iconstyle" => "fa",
-//            "icon" => "fa-markdown",
-//            "iconstyle" => "fab",
-            "dependencies" => [
-                'plugin://editor/lib/codemirror/addons/overlay.js',
-                'plugin://editor/lib/codemirror/mode/css/css.js',
-                'plugin://editor/lib/codemirror/mode/clike/clike.js',
-                'plugin://editor/lib/codemirror/mode/htmlmixed/htmlmixed.js',
-                'plugin://editor/lib/codemirror/mode/xml/xml.js',
-                'plugin://editor/lib/codemirror/mode/javascript/javascript.js',
-                'plugin://editor/lib/codemirror/mode/markdown/markdown.js',
-                'plugin://editor/lib/codemirror/mode/gfm/gfm.js',
-                'plugin://editor/lib/codemirror/mode/meta.js',
-            ]
-        ]);
-    }
-
-    if ($config->get("plugins.editor.yaml_enabled", true)) {
-        $manager->registerService("language", [
-            "id" => "yaml",
-            "caption" => "YAML",
-            "icon" => "fa-indent",
-            'iconstyle' =>  'fa',
-            "dependencies" => [
-                "dependencies" => ['plugin://editor/lib/codemirror/mode/yacas/yacas.js'],
-            ]
-        ]);
-    }
-
     if ($config->get("plugins.editor.directories_enabled", true)) {
         $manager->registerService("language", [
             "id" => "directory",
             "caption" => "Directories",
-            "icon" => "fa-folders",
+            "icon" => "folders",
             'iconstyle' =>  'fa',
             "dependencies" => [
                 "dependencies" => ['plugin://editor/lib/codemirror/mode/yacas/yacas.js'],

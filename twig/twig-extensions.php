@@ -66,13 +66,7 @@ class CssEditorTwigExtensions extends \Twig_Extension
             new \Twig_SimpleFunction('css_editor_list', [$this, 'css_editor_list']),
             new \Twig_SimpleFunction('css_editor_edit', [$this, 'css_editor_edit']),
 
-            new \Twig_SimpleFunction('css_editor_directories', [$this, 'css_editor_directories']),
             new \Twig_SimpleFunction('get_directory_list', [$this, 'get_directory_list']),
-            new \Twig_SimpleFunction('twig_editor_directories', [$this, 'twig_editor_directories']),
-            new \Twig_SimpleFunction('php_editor_directories', [$this, 'php_editor_directories']),
-            new \Twig_SimpleFunction('js_editor_directories', [$this, 'js_editor_directories']),
-            new \Twig_SimpleFunction('yaml_editor_directories', [$this, 'yaml_editor_directories']),
-            new \Twig_SimpleFunction('markdown_editor_directories', [$this, 'markdown_editor_directories']),
         ];
     }
 
@@ -249,45 +243,6 @@ class CssEditorTwigExtensions extends \Twig_Extension
         return $theFiles;
     }
 
-    public function css_editor_directories()
-    {
-        //TODO add scss too
-        return $this->get_editor_directories('css');
-    }
-
-    static public function walkDir($parent, $callback)
-    {
-        if (!is_dir($parent)) {
-            return;
-        }
-
-        $callback($parent);
-
-        foreach (scandir($parent) as $dir) {
-            if (Utils::startsWith($dir, ".")) {
-                continue;
-            }
-            $path = "$parent/$dir";
-            CssEditorTwigExtensions::walkDir($path, $callback);
-        }
-    }
-
-    //TODO make get_editor_directories accept array
-    public function twig_editor_directories()
-    {
-//        $theDirectories = Grav::instance()['twig']->twig_paths;
-        return $this->get_extension_editor_directories('twig');
-    }
-
-    public function markdown_editor_directories()
-    {
-        return $this->get_extension_editor_directories('md');
-    }
-
-    public function yaml_editor_directories()
-    {
-        return $this->get_extension_editor_directories('yaml');
-    }
     
     public function get_directory_list($directory)
     {
@@ -365,60 +320,6 @@ class CssEditorTwigExtensions extends \Twig_Extension
         }
         $s .= '</div>';
         return $s;
-    }
-
-    public function get_editor_directories($theExt)
-    {
-        $theDirectories = ['user/plugins', 'user/themes'];
-        $s = "";
-        $s .= addFastFilter(".editor-items a", ".editor-items .editor-section", "a");
-        $s .= "<div class='editor-items'>";
-        foreach ($theDirectories as $dir1) {
-            self::walkDir($dir1, function ($dir) use (&$s, $theExt) {
-                $shortDir = preg_replace("#^.*?/(user|system)/#", "$1/", $dir);
-                $added = false;
-                foreach (scandir($dir) as $file) {
-                    $path = "$dir/$file";
-                    if (is_dir($path)) {
-                        continue;
-                    }
-                    if (!is_file($path)) continue;
-
-                    $ext = pathinfo($file, PATHINFO_EXTENSION);
-                    if ($ext !== $theExt) {
-                        continue;
-                    }
-                    if (!$added) {
-                        $added = true;
-                        $s .= "<div class='editor-section'><div class='editor-folder'>$shortDir</div>";
-                    }
-                    $editorUrl = $this->getEditorUrl("$shortDir/$file", $theExt);
-                    $s .= "<a href='$editorUrl'}><div class='editor-file'>$file</div></a>";
-
-                }
-                if ($added) {
-                    $s .= '</div>';
-                }
-            });
-        }
-        $s .= "</div>";
-        return $s;
-    }
-
-    public function php_editor_directories()
-    {
-        return $this->get_editor_directories('php');
-    }
-
-    public function js_editor_directories()
-    {
-        return $this->get_editor_directories('js');
-    }
-
-    private function getEditorUrl($path, $language)
-    {
-        $xpath = urlencode($path);
-        return "edit?language=$language&target=$xpath";
     }
 
     private function encodeFileUrl($path, $extension)

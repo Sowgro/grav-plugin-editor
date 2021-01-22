@@ -67,23 +67,6 @@ class EditorPlugin extends Plugin
         $route = $this->grav['admin']->location . "/" . $this->grav['admin']->route;
 
         switch ($route) {
-            case "editor/js":
-            case "editor/css":
-            case "editor/php":
-            case "editor/twig":
-            case "editor/md":
-            case "editor/yaml":
-
-                $type = str_replace("editor/", "", $route);
-                $page = new Page;
-                $path = __DIR__ . "/admin/editor-pages/editor-list-$type.md";
-                $page->init(new \SplFileInfo($path));
-                $page->template('editor-list');
-                $page->slug(basename($route));
-
-                $e->page = $page;
-                $e->stopPropagation();
-                break;
             case "editor/directory":
 
                 if (isset($_GET['target'])) {
@@ -101,7 +84,7 @@ class EditorPlugin extends Plugin
                 if (preg_match("/(\/\.\.|\/\.)/",$directoryToView)) {
                     return "<div>The use of special links . and .. are not allowed.</div>";
                 }
-                
+
                 $this->grav['twig']->twig_vars['directoryToView'] = $route;
                 $page = new Page;
                 $path = __DIR__ . "/admin/editor-pages/editor-directories.md";
