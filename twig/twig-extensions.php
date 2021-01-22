@@ -293,13 +293,13 @@ class CssEditorTwigExtensions extends \Twig_Extension
     {
         //Check if directory is valid
         if (!is_dir($directory)) {
-            $this->grav->fireEvent('onPageNotFound');
-            return;
+            $this->grav->fireEvent('onPageNotFound');      
+            return "<div>The directory you have selected to edit was not found.</div>";
         }
         // Disallow use of .. to prevent access to restricted directories
         if (!preg_match("/(\/\.\.\/|\/\.\/)/",$directory)) {
             $this->grav->fireEvent('onPageNotFound');
-            return;
+            return "<div>The use of special links . and .. are not allowed.</div>";
         }
 
         // Starts the HTML elements
