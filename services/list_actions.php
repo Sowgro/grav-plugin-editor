@@ -33,7 +33,7 @@ $manager->registerService("renderer", [
     "scope" => ["editor-list"],
     "order" => "first",
     "render" => function () use ($admin_base) {
-        return '<a class="button" onclick="window.history.back()"><i class="fa fa-reply"></i>Back</a>';
+        return '<a class="button" onclick="window.history.back()"><i class="fa fa-reply"></i> Back</a>';
     }
 ]);
 
@@ -87,6 +87,6 @@ $manager->registerService("renderer", [
     "scope" => ["editor-list"],
     "order" => "last",
     "render" => function () use ($admin_base) {
-        return "<a class='button' onclick='window.location.reload(); return false;'><i class='fa fa-refresh'></i>Refresh</a>";
+        return "<a class='button' onclick='window.location.reload(); return false;'><i class='fa fa-refresh'></i> Refresh</a>";
     },
 ]);

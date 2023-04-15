@@ -43,6 +43,8 @@
 {
     $manager = \Twelvetone\Common\ServiceManager::getInstance();
     $grav = \Grav\Common\Grav::instance();
+    $url = $grav['core-service-util']->routeToAdmin();
+    $url .= "/files";
     $base = $grav['uri']->rootUrl(false) . '/' . trim($grav['admin']->base, '/');
 
     $manager->registerService('action', [
@@ -50,23 +52,10 @@
         "icon" => "fa-folder",
         "scope" => ["admin:sidebar"],
         "order" => "after:parent",
-        "href" => $base . "/files",
+        "clientCallback" => "window.location.href=\"$url\"",
         'isSelected' => function ($context) {
             return strpos(\Grav\Common\Grav::instance()['uri']->route(), "/files") != false;
         }
     ]);
 
 }
-
-// Ye old list
-
-/**
- * {#{% do assets.addJs('plugin://editor/lib/codemirror/mode/css/css.js') %}#}
- * {#{% do assets.addJs('plugin://editor/lib/codemirror/mode/clike/clike.js') %}#}
- * {#{% do assets.addJs('plugin://editor/lib/codemirror/mode/php/php.js') %}#}
- * {#{% do assets.addJs('plugin://editor/lib/codemirror/mode/twig/twig.js') %}#}
- * {#{% do assets.addJs('plugin://editor/lib/codemirror/mode/htmlmixed/htmlmixed.js') %}#}
- * {#{% do assets.addJs('plugin://editor/lib/codemirror/mode/xml/xml.js') %}#}
- * {#{% do assets.addJs('plugin://editor/lib/codemirror/mode/javascript/javascript.js') %}#}
- * {#{% do assets.addJs('plugin://editor/lib/codemirror/addons/overlay.js') %}#}
- */

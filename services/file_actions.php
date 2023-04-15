@@ -27,6 +27,7 @@
 //
 
 $twig = $this->grav['twig'];
+/*
 $manager->registerService("renderer", [
     "caption" => "Fullscreen",
     "scope" => ["editor"],
@@ -35,13 +36,14 @@ $manager->registerService("renderer", [
         return $twig->processTemplate("fullscreen.html.twig", ["targetSelector" => ".editor"]);
     },
 ]);
+*/
 
 $manager->registerService("renderer", [
     "caption" => "Back",
     "scope" => ["editor"],
     "order" => "first",
     "render" => function ($context) use ($twig) {
-        return '<a class="button" onclick="window.history.back()"><i class="fa fa-reply"></i>Back</a>';
+        return '<a class="button" onclick="window.history.back()"><i class="fa fa-reply"></i> Back</a>';
     }
 ]);
 
@@ -50,8 +52,6 @@ $manager->registerService("renderer", [
     "scope" => ["editor"],
     "order" => "last",
     "render" => function () {
-        return "<a class='button' onclick='_doSave(); return false;'><i class='fa fa-save'></i>Save</a>";
+        return "<a class='button' onclick='_doSave(); return false;'><i class='fa fa-save'></i> Save</a>";
     },
 ]);
-
-
